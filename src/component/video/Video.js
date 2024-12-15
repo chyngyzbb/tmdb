@@ -34,11 +34,13 @@ const settings = {
                 <Slider {...settings}>
                 {
                     video.map(el=>(
-                        <div>
+                        <div className='video'>
+                          
                             <iframe width="300" height="215"
                          src={`https://www.youtube.com/embed/${el.key}`} 
                          title="YouTube video player" frameborder="0" 
                             allowfullscreen></iframe>
+                          
                         </div>
 
                     ))

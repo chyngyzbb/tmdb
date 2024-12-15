@@ -1,22 +1,23 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { APIKEY } from '../../ApiKey';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
+import { LanguageContext } from '../../context';
 
 const ActorMovies = ({actorId}) => {
 
-
+    const {language}=useContext(LanguageContext)
     const [movies,setMovies]=useState([])
     const getActorMovies=async(id,apikey)=>{
-        const url=await axios(`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${apikey}&language=en-US`)
+        const url=await axios(`https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${apikey}&language=${language}`)
         setMovies(url.data.cast)
     }
 
     console.log(movies);
     useEffect(()=>{
         getActorMovies(actorId,APIKEY)
-    },[])
+    },[language])
     
 
 
@@ -25,7 +26,7 @@ const ActorMovies = ({actorId}) => {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 5,
         slidesToScroll: 1
       };
 

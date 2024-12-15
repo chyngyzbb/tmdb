@@ -1,21 +1,22 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { APIKEY } from '../../ApiKey';
 import Actors from '../Actors/Actors';
 import Video from '../video/Video';
+import { LanguageContext } from '../../context';
 
 const DetalPage = () => {
 
 
     const [detal,setDetal]=useState({})
-
+    const {language}=useContext(LanguageContext)
         const {movie_id}=useParams()
 
     const getDetal=async(id,apikey)=>{
     try{
        
-        const res=await axios(`https://api.themoviedb.org/3/movie/${id}?api_key=${apikey}&language=en-US`)
+        const res=await axios(`https://api.themoviedb.org/3/movie/${id}?api_key=${apikey}&language=${language}`)
         const {data}=await res
         setDetal(data)
     
@@ -30,7 +31,7 @@ const DetalPage = () => {
 
     useEffect(()=>{
         getDetal(movie_id,APIKEY)
-    },[])
+    },[language])
 
     return (
         <>
@@ -53,7 +54,10 @@ const DetalPage = () => {
                         <h4>{popularity}</h4>
                         <p>{overview}</p>
                         <h3>{Math.floor(runtime/60)} h {runtime%50} min</h3>
+                        <div className='vote'
+                            style={{background:`conic-gradient(yellow ${Math.round(vote_average*10)*3.59}deg, grey 0deg)`}}>
                         <div className='detal-vote'>{Math.round(vote_average*10)}%</div>
+                        </div>
                      </div>
                 </div>
            

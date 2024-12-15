@@ -1,6 +1,7 @@
-import React from "react"
+import { useContext, useState } from 'react';
 import LOGO from '../img/log.webp'
 import { Link,NavLink,useNavigate } from "react-router-dom";
+import { LanguageContext } from '../context';
 
 
 
@@ -8,6 +9,22 @@ import { Link,NavLink,useNavigate } from "react-router-dom";
 function Header(){
 
     const navigate=useNavigate()
+    const {mode,setMode}=useContext(LanguageContext)
+    const getBgr=()=>{
+         setMode(!mode)
+         localStorage.setItem('mode',JSON.stringify(!mode))
+    }
+
+    const [value,setValue]=useState('')
+
+    const handleChange=(e)=>setValue(e.target.value)
+    
+    const searchToResault=()=>{
+        navigate(`/movies/search-resalt/${value}`)
+        setValue('')
+    }
+
+    const {language,setLanguage}=useContext(LanguageContext)
     return(
         <div id="header">
             <div className="container">
@@ -19,9 +36,20 @@ function Header(){
                       <NavLink to={"/popular"}>Popular</NavLink>
                       <NavLink to={"/toprated"}>Top Rated</NavLink>
                     </div>
+
+                    <div className='search'>
+                        <input value={value} onChange={handleChange} type="text" />
+                        <button onClick={searchToResault}>search</button>
+                    </div>
+
                     <div className="header-end">
-                        <button onClick={()=>navigate("/")}>Sign in</button>
-                        <button>Request demo</button>
+                        <select onChange={(e)=>setLanguage(e.target.value)} name='' id=''>
+                            <option value='en-US'>english</option>
+                            <option value='tr-TR'>turkce</option>
+                            <option value='ru-RU'>russian</option>
+                            <option value='fr-FR'>france</option>
+                        </select>
+                        <div onClick={getBgr} className="mode">{mode ? 'ligth': 'mode'}</div>
                     </div>
 
                 </div>
