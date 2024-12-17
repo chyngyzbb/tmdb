@@ -5,14 +5,15 @@ import { APIKEY } from '../../ApiKey';
 import Actors from '../Actors/Actors';
 import Video from '../video/Video';
 import { LanguageContext } from '../../context';
+import Modal from './Modal/Modal';
 
 const DetalPage = () => {
 
 
     const [detal,setDetal]=useState({})
     const {language}=useContext(LanguageContext)
+    const {click,setClick}=useContext(LanguageContext)
         const {movie_id}=useParams()
-
     const getDetal=async(id,apikey)=>{
     try{
        
@@ -43,12 +44,19 @@ const DetalPage = () => {
            <div className='container'>
             
                 <div className='detal'>
-                    <img
+                    <Modal detal={detal} click={click}/>
+                    <div
+                        onClick={()=>setClick(!click)} 
+                        className='detal-img'>
+                    <img 
+                    // className='detal-img'
                     style={{width:'350px',
+                        cursor:'pointer',
                         borderRadius:'10px',
                         boxShadow: '    0 10px 17px black'
                     }}
                      src={`https://media.themoviedb.org/t/p/w600_and_h900_bestv2/${poster_path}`}></img>
+                    </div>
                      <div className='detal-desc'>
                         <h1>{title}</h1>
                         <h4>{popularity}</h4>
